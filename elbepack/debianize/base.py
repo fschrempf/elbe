@@ -43,6 +43,13 @@ class DebianizeBase (FormMultiPage):
     def __init__(self):
         self.deb = {}
         self.tmpl_dir = None
+        self.p_name = None
+        self.p_version = None
+        self.p_arch = None
+        self.m_name = None
+        self.m_mail = None
+        self.release = None
+        self.source_format = None
 
         self.archs = ["arm64", "armhf", "armel", "amd64", "i386", "powerpc"]
         self.formats = ["native", "git", "quilt"]

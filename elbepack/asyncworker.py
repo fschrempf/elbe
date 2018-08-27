@@ -23,6 +23,7 @@ from elbepack.elbeproject import AptCacheCommitError, AptCacheUpdateError
 class AsyncWorkerJob(object):
     def __init__(self, project):
         self.project = project
+        self.old_status = None
 
     def enqueue(self, queue, db):
         queue.put(self)
@@ -381,6 +382,7 @@ class GenUpdateJob(AsyncWorkerJob):
         self.name = project.xml.text("/project/name")
         self.base_version = base_version
         self.current_version = project.xml.text("/project/version")
+        self.base_version_xml = None
         AsyncWorkerJob.__init__(self, project)
 
     def enqueue(self, queue, db):
@@ -427,12 +429,12 @@ class SaveVersionJob(AsyncWorkerJob):
     def __init__(self, project, description):
         AsyncWorkerJob.__init__(self, project)
         self.description = description
+        self.name = self.project.xml.text("project/name")
+        self.version = self.project.xml.text("project/version")
 
     def enqueue(self, queue, db):
         self.old_status = db.set_busy(self.project.builddir,
                                       ["build_done", "has_changes"])
-        self.name = self.project.xml.text("project/name")
-        self.version = self.project.xml.text("project/version")
 
         # Create the database entry now. This has the advantage that the
         # user will see an error message immediately, if he tries to use
@@ -474,9 +476,9 @@ class CheckoutVersionJob(AsyncWorkerJob):
     def __init__(self, project, version):
         AsyncWorkerJob.__init__(self, project)
         self.version = version
+        self.name = project.xml.text("project/name")
 
     def enqueue(self, queue, db):
-        self.name = self.project.xml.text("project/name")
         old_status = db.set_busy(self.project.builddir,
                                  ["build_done", "has_changes", "build_failed"])
 

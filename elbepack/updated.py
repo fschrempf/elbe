@@ -157,6 +157,7 @@ class rw_access_file(object):
     def __init__(self, filename, status):
         self.filename = filename
         self.rw = rw_access(filename, status)
+        self.f = None
 
     def __enter__(self):
         self.rw.__enter__()
