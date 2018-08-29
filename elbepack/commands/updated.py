@@ -25,6 +25,7 @@ except ImportError:
 
 
 def shutdown(signum, fname, status):
+    #pylint: disable=unused-argument
     status.stop = True
     for mon in status.monitors:
         mon.stop()
