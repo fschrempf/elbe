@@ -188,7 +188,7 @@ class rw_access(object):
             self.status.log("remount %s readonly" % self.mount)
             os.system("sync")
             cmd = "mount -o remount,ro %s" % self.mount
-            ret = os.system(cmd)
+            os.system(cmd)
 
     def get_mount_status(self):
         with open('/etc/mtab') as mtab:
@@ -600,6 +600,7 @@ def handle_update_file(upd_file, status, remove=False):
 
 
 def shutdown(signum, fname, status):
+    # pylint: disable=unused-argument
     status.stop = True
     for mon in status.monitors:
         mon.stop()
