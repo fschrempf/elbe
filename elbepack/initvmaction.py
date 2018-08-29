@@ -590,13 +590,11 @@ class SubmitAction(InitVMAction):
             if args[0].endswith('.xml'):
                 # We have an xml file, use that for elbe init
                 xmlfile = args[0]
-                url_validation = ''
             elif args[0].endswith('.iso'):
                 # We have an iso image, extract xml from there.
                 tmp = extract_cdrom(args[0])
 
                 xmlfile = tmp.fname('source.xml')
-                url_validation = '--skip-urlcheck'
                 cdrom = args[0]
             else:
                 print(

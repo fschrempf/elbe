@@ -26,6 +26,7 @@ class AsyncWorkerJob(object):
         self.old_status = None
 
     def enqueue(self, queue, db):
+        #pylint: disable=unused-argument
         queue.put(self)
 
     def execute(self, db):

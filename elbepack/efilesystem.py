@@ -334,7 +334,6 @@ class TargetFs(ChRootFilesystem):
                 pass
 
         if self.xml.has("target/package/cpio"):
-            oldwd = os.getcwd()
             cpio_name = self.xml.text("target/package/cpio/name")
             os.chdir(self.fname(''))
             try:
@@ -349,7 +348,6 @@ class TargetFs(ChRootFilesystem):
                 pass
 
         if self.xml.has("target/package/squashfs"):
-            oldwd = os.getcwd()
             sfs_name = self.xml.text("target/package/squashfs/name")
             os.chdir(self.fname(''))
             try:
@@ -358,7 +356,7 @@ class TargetFs(ChRootFilesystem):
                     (self.fname(''), targetdir, sfs_name))
                 # only append filename if creating mksquashfs was successful
                 self.images.append(sfs_name)
-            except CommandError as e:
+            except CommandError:
                 # error was logged; continue
                 pass
 

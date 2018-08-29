@@ -208,7 +208,7 @@ class RepoBase(object):
                 # different md5 already.
                 #
                 # Try remove, and add again.
-                self.removedeb(pkgname, component)
+                self.removedeb(pkgname)
                 self._includedeb(path, self.repo_attr.codename, component)
             else:
                 raise ce
@@ -228,7 +228,7 @@ class RepoBase(object):
             "reprepro --basedir %s remove %s %s" %
             (self.fs.path, codename, pkgname))
 
-    def removedeb(self, pkgname, component="main"):
+    def removedeb(self, pkgname):
         self._removedeb(pkgname, self.repo_attr.codename)
 
     def _removesrc(self, srcname, codename):
@@ -236,12 +236,12 @@ class RepoBase(object):
             "reprepro --basedir %s removesrc %s %s" %
             (self.fs.path, codename, srcname))
 
-    def removesrc(self, path, component="main"):
+    def removesrc(self, path):
         for p in Deb822.iter_paragraphs(file(path)):
             if 'Source' in p:
                 self._removesrc(p['Source'], self.repo_attr.codename)
 
-    def _remove(self, path, codename, component):
+    def _remove(self, path, codename):
         os.environ['GNUPGHOME'] = "/var/cache/elbe/gnupg"
         for p in Deb822.iter_paragraphs(file(path)):
             if 'Source' in p:
@@ -278,7 +278,7 @@ class RepoBase(object):
                 # different md5 already.
                 #
                 # Try remove, and add again.
-                self.removesrc(path, component)
+                self.removesrc(path)
                 self._includedsc(path, self.repo_attr.codename, component)
             else:
                 raise ce
@@ -286,8 +286,8 @@ class RepoBase(object):
     def include(self, path, component="main"):
         self._include(path, self.repo_attr.codename, component)
 
-    def remove(self, path, component="main"):
-        self._remove(path, self.repo_attr.codename, component)
+    def remove(self, path):
+        self._remove(path, self.repo_attr.codename)
 
     def include_init_dsc(self, path, component="main"):
         self._includedsc(path, self.init_attr.codename, component)
