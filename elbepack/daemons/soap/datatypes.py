@@ -23,6 +23,7 @@ class SoapProject (ComplexModel):
         self.version = prj.version
         self.status = prj.status
         self.edit = prj.edit
+        ComplexModel.__init__(self)
 
 
 class SoapFile (ComplexModel):
@@ -34,3 +35,4 @@ class SoapFile (ComplexModel):
     def __init__(self, fi):
         self.name = fi.name
         self.description = fi.description
+        ComplexModel.__init__(self)
